@@ -61,7 +61,7 @@ print_usage()
 }
 
 # main
-zparseopts h=help_flag -help=help_flag v=version_flag -version=version_flag
+zparseopts -D h=help_flag -help=help_flag v=version_flag -version=version_flag
 
 if (( ${+help_flag[1]} > 0 ))
 then
@@ -75,21 +75,11 @@ then
   exit 0
 fi
 
-check_programs
-
-while getopts ":h" opt
+while getopts ":" opt
 do
   case $opt in
-    h)
-      print_usage
-      exit 0
-      ;;
     \?)
       >&2 print -- Invalid option -${OPTARG}.
-      exit 1
-      ;;
-    :)
-      >&2 print -- Missing argument to -${OPTARG}.
       exit 1
       ;;
   esac
@@ -101,6 +91,8 @@ shift $((OPTIND-1))
   >&2 print -- Invalid number of arguments
   exit 2
 }
+
+check_programs
 
 POM=${1}
 
@@ -115,13 +107,13 @@ then
   continue
 fi
 
-PARENT=$(xmlstarlet sel \
-                    -N x=http://maven.apache.org/POM/4.0.0 \
-                    -t -m "/x:project/x:version" \
-                    -v . \
-                    ${POM} || true)
+POM_VERSION=$(xmlstarlet sel \
+                         -N x=http://maven.apache.org/POM/4.0.0 \
+                         -t -m "/x:project/x:version" \
+                         -v . \
+                         ${POM} || true)
 
-printf "%s\n" ${PARENT}
+printf "%s\n" ${POM_VERSION}
 
 # Local variables:
 # coding: utf-8
