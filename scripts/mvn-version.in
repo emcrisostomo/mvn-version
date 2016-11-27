@@ -23,7 +23,10 @@ set -o errexit
 set -o nounset
 
 REQUIRED_PROGS=( xmlstarlet )
-PROGNAME=$0
+PROGNAME=${0:t}
+BUG_REPORT=@PACKAGE_BUGREPORT@
+
+typeset -a help_flag version_flag
 
 check_programs()
 {
@@ -36,17 +39,42 @@ check_programs()
   done
 }
 
-print_usage()
+print_version()
 {
   print -- "${PROGNAME} @PACKAGE_VERSION@"
+  print -- "Copyright (C) 2016 Enrico M. Crisostomo"
+  print -- "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>."
+  print -- "This is free software: you are free to change and redistribute it."
+  print -- "There is NO WARRANTY, to the extent permitted by law."
+  print
+  print -- "Written by Enrico M. Crisostomo"
+}
+
+print_usage()
+{
+  print -- "${PROGNAME}"
   print
   print -- "Usage:"
   print -- "${PROGNAME} repository"
   print
-  print -- "Report bugs to <>."
+  print -- "Report bugs to <${BUG_REPORT}>."
 }
 
 # main
+zparseopts h=help_flag -help=help_flag v=version_flag -version=version_flag
+
+if (( ${+help_flag[1]} > 0 ))
+then
+  print_usage
+  exit 0
+fi
+
+if (( ${+version_flag[1]} > 0 ))
+then
+  print_version
+  exit 0
+fi
+
 check_programs
 
 while getopts ":h" opt
