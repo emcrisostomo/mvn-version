@@ -38,7 +38,7 @@ check_programs()
 
 print_usage()
 {
-  print -- "${PROGNAME}"
+  print -- "${PROGNAME} @PACKAGE_VERSION@"
   print
   print -- "Usage:"
   print -- "${PROGNAME} repository"
@@ -94,3 +94,13 @@ PARENT=$(xmlstarlet sel \
                     ${POM} || true)
 
 printf "%s\n" ${PARENT}
+
+# Local variables:
+# coding: utf-8
+# mode: sh
+# eval: (sh-set-shell "zsh")
+# tab-width: 2
+# indent-tabs-mode: nil
+# sh-basic-offset: 2
+# sh-indentation: 2
+# End:
