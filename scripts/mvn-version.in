@@ -27,7 +27,7 @@ PROGNAME=${0:t}
 BUG_REPORT=@PACKAGE_BUGREPORT@
 POM_VERSION=
 
-typeset -a help_flag version_flag
+typeset -a help_flag parent_flag version_flag
 
 check_programs()
 {
@@ -56,7 +56,10 @@ print_usage()
   print -- "${PROGNAME}"
   print
   print -- "Usage:"
-  print -- "${PROGNAME} repository"
+  print -- "${PROGNAME} [-p] repository"
+  print
+  print -- "Usage:"
+  print -- " -p, --parent  Show the parent version"
   print
   print -- "Report bugs to <${BUG_REPORT}>."
 }
@@ -80,7 +83,10 @@ get_parent_version()
 }
 
 # main
-zparseopts -D h=help_flag -help=help_flag v=version_flag -version=version_flag
+zparseopts -D \
+           h=help_flag -help=help_flag \
+           p=parent_flag -parent=parent_flag \
+           v=version_flag -version=version_flag
 
 if (( ${+help_flag[1]} > 0 ))
 then
@@ -126,7 +132,12 @@ then
   continue
 fi
 
-if get_version || get_parent_version
+if (( ${+parent_flag[1]} > 0 ))
+then
+  get_parent_version
+  printf "%s\n" ${POM_VERSION}
+  exit 0
+elif get_version || get_parent_version
 then
   printf "%s\n" ${POM_VERSION}
   exit 0
