@@ -1,6 +1,11 @@
 NEWS
 ****
 
+New in 1.1.0:
+
+  * Get the version number from the parent, if it exists, if an explicit version
+    is not set.
+
 New in 1.0.0:
 
   * Get the version number of a Maven repository
