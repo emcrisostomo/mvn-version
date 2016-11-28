@@ -1,5 +1,5 @@
 #                                               -*- Autoconf -*-
-# Copyright (C) 2015 Enrico M. Crisostomo
+# Copyright (C) 2016 Enrico M. Crisostomo
 #
 # This program is free software; you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -15,9 +15,9 @@
 #
 # Process this file with autoconf to produce a configure script.
 #
-dnl Copyright (C) 2015 Enrico M. Crisostomo
+dnl Copyright (C) 2016 Enrico M. Crisostomo
 AC_PREREQ([2.69])
-AC_INIT([mvn-version], [1.2.0], [enrico.m.crisostomo])
+AC_INIT([mvn-version], [1.2.1], [enrico.m.crisostomo])
 AC_COPYRIGHT([2016 (C) Enrico M. Crisostomo])
 AC_REVISION([$Revision: 1.0.0$])
 AC_CONFIG_SRCDIR([scripts/mvn-version.in])
