@@ -1,6 +1,15 @@
 NEWS
 ****
 
+New in 1.2.0:
+
+  * Add (-p, --parent) to get the version of the parent project.
+
+New in 1.1.0:
+
+  * Get the version number from the parent, if it exists, if an explicit version
+    is not set.
+
 New in 1.0.0:
 
   * Get the version number of a Maven repository

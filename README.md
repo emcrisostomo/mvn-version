@@ -49,7 +49,9 @@ The syntax to invoke `mvn-version` is the following:
 
 The available options are:
 
-  * `-h`: to print a usage message.
+  * `-h, --help`: to print a usage message.
+  * `-p, --parent`: to show the version of the parent project.
+  * `-v, --version`: to show the program version.
 
 `path` is the path of a `pom.xml` or the path of a directory containing a
 `pom.xml`.
@@ -57,9 +59,15 @@ The available options are:
 Examples
 --------
 
-The following command lists the repositories of the current user:
+The following command shows the version of the project in the current directory:
 
     $ mvn-version .
+    1.0.0-SNAPSHOT
+
+The following command shows the version of the parent of the project in the
+current directory:
+
+    $ mvn-version -p .
     1.0.0-SNAPSHOT
 
 Bug Reports
