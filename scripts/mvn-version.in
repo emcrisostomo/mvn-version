@@ -25,6 +25,7 @@ set -o nounset
 REQUIRED_PROGS=( xmlstarlet )
 PROGNAME=${0:t}
 BUG_REPORT=@PACKAGE_BUGREPORT@
+POM_VERSION=
 
 typeset -a help_flag version_flag
 
@@ -58,6 +59,24 @@ print_usage()
   print -- "${PROGNAME} repository"
   print
   print -- "Report bugs to <${BUG_REPORT}>."
+}
+
+get_version()
+{
+  POM_VERSION=$(xmlstarlet sel \
+                           -N x=http://maven.apache.org/POM/4.0.0 \
+                           -t -m "/x:project/x:version" \
+                           -v . \
+                           ${POM})
+}
+
+get_parent_version()
+{
+  POM_VERSION=$(xmlstarlet sel \
+                           -N x=http://maven.apache.org/POM/4.0.0 \
+                           -t -m "/x:project/x:parent/x:version" \
+                           -v . \
+                           ${POM})
 }
 
 # main
@@ -107,13 +126,13 @@ then
   continue
 fi
 
-POM_VERSION=$(xmlstarlet sel \
-                         -N x=http://maven.apache.org/POM/4.0.0 \
-                         -t -m "/x:project/x:version" \
-                         -v . \
-                         ${POM} || true)
+if get_version || get_parent_version
+then
+  printf "%s\n" ${POM_VERSION}
+  exit 0
+fi
 
-printf "%s\n" ${POM_VERSION}
+exit 1
 
 # Local variables:
 # coding: utf-8
