@@ -59,16 +59,30 @@ The available options are:
 Examples
 --------
 
-The following command shows the version of the project in the current directory:
+Given the following `pom.xml` fragment:
+
+    <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+      xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+      <groupId>...</groupId>
+      <artifactId>...</artifactId>
+      <version>1.6.0</version>
+    </parent>
+
+    <artifactId>...</artifactId>
+    <version>1.1.0-SNAPSHOT</version>
+
+the following command shows the version of the project:
 
     $ mvn-version .
     1.0.0-SNAPSHOT
 
-The following command shows the version of the parent of the project in the
-current directory:
+and the following command shows the version of the parent of the project:
 
     $ mvn-version -p .
-    1.0.0-SNAPSHOT
+    1.6.0
 
 Bug Reports
 -----------
