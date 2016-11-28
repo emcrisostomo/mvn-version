@@ -1,5 +1,5 @@
 #!@ZSH_CMD@
-# -*- coding: utf-8; tab-width: 2; indent-tabs-mode: nil; sh-basic-offset: 2; sh-indentation: 2; -*- vim:fenc=utf-8:et:sw=2:ts=2:sts=2
+# -*- vim:fenc=utf-8:et:sw=2:ts=2:sts=2
 #
 # Copyright (c) 2016 Enrico M. Crisostomo
 #
@@ -23,7 +23,11 @@ set -o errexit
 set -o nounset
 
 REQUIRED_PROGS=( xmlstarlet )
-PROGNAME=$0
+PROGNAME=${0:t}
+BUG_REPORT=@PACKAGE_BUGREPORT@
+POM_VERSION=
+
+typeset -a help_flag version_flag
 
 check_programs()
 {
@@ -36,6 +40,17 @@ check_programs()
   done
 }
 
+print_version()
+{
+  print -- "${PROGNAME} @PACKAGE_VERSION@"
+  print -- "Copyright (C) 2016 Enrico M. Crisostomo"
+  print -- "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>."
+  print -- "This is free software: you are free to change and redistribute it."
+  print -- "There is NO WARRANTY, to the extent permitted by law."
+  print
+  print -- "Written by Enrico M. Crisostomo"
+}
+
 print_usage()
 {
   print -- "${PROGNAME}"
@@ -43,25 +58,47 @@ print_usage()
   print -- "Usage:"
   print -- "${PROGNAME} repository"
   print
-  print -- "Report bugs to <>."
+  print -- "Report bugs to <${BUG_REPORT}>."
+}
+
+get_version()
+{
+  POM_VERSION=$(xmlstarlet sel \
+                           -N x=http://maven.apache.org/POM/4.0.0 \
+                           -t -m "/x:project/x:version" \
+                           -v . \
+                           ${POM})
+}
+
+get_parent_version()
+{
+  POM_VERSION=$(xmlstarlet sel \
+                           -N x=http://maven.apache.org/POM/4.0.0 \
+                           -t -m "/x:project/x:parent/x:version" \
+                           -v . \
+                           ${POM})
 }
 
 # main
-check_programs
+zparseopts -D h=help_flag -help=help_flag v=version_flag -version=version_flag
 
-while getopts ":h" opt
+if (( ${+help_flag[1]} > 0 ))
+then
+  print_usage
+  exit 0
+fi
+
+if (( ${+version_flag[1]} > 0 ))
+then
+  print_version
+  exit 0
+fi
+
+while getopts ":" opt
 do
   case $opt in
-    h)
-      print_usage
-      exit 0
-      ;;
     \?)
       >&2 print -- Invalid option -${OPTARG}.
-      exit 1
-      ;;
-    :)
-      >&2 print -- Missing argument to -${OPTARG}.
       exit 1
       ;;
   esac
@@ -73,6 +110,8 @@ shift $((OPTIND-1))
   >&2 print -- Invalid number of arguments
   exit 2
 }
+
+check_programs
 
 POM=${1}
 
@@ -87,10 +126,20 @@ then
   continue
 fi
 
-PARENT=$(xmlstarlet sel \
-                    -N x=http://maven.apache.org/POM/4.0.0 \
-                    -t -m "/x:project/x:version" \
-                    -v . \
-                    ${POM} || true)
+if get_version || get_parent_version
+then
+  printf "%s\n" ${POM_VERSION}
+  exit 0
+fi
 
-printf "%s\n" ${PARENT}
+exit 1
+
+# Local variables:
+# coding: utf-8
+# mode: sh
+# eval: (sh-set-shell "zsh")
+# tab-width: 2
+# indent-tabs-mode: nil
+# sh-basic-offset: 2
+# sh-indentation: 2
+# End:

@@ -17,13 +17,14 @@
 #
 dnl Copyright (C) 2015 Enrico M. Crisostomo
 AC_PREREQ([2.69])
-AC_INIT([mvn-version], [1.0.0], [enrico.m.crisostomo])
+AC_INIT([mvn-version], [1.1.0], [enrico.m.crisostomo])
 AC_COPYRIGHT([2016 (C) Enrico M. Crisostomo])
 AC_REVISION([$Revision: 1.0.0$])
 AC_CONFIG_SRCDIR([scripts/mvn-version.in])
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_FILES([Makefile scripts/mvn-version])
+AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([scripts/mvn-version], [chmod +x scripts/mvn-version])
 AC_CONFIG_MACRO_DIRS([m4])
 AC_CONFIG_MACRO_DIR([m4])
 
