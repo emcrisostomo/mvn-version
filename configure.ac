@@ -17,7 +17,7 @@
 #
 dnl Copyright (C) 2015 Enrico M. Crisostomo
 AC_PREREQ([2.69])
-AC_INIT([mvn-version], [1.1.0-develop], [enrico.m.crisostomo])
+AC_INIT([mvn-version], [1.1.0], [enrico.m.crisostomo])
 AC_COPYRIGHT([2016 (C) Enrico M. Crisostomo])
 AC_REVISION([$Revision: 1.0.0$])
 AC_CONFIG_SRCDIR([scripts/mvn-version.in])
