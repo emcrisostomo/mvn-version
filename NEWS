@@ -1,6 +1,10 @@
 NEWS
 ****
 
+New in 1.2.1:
+
+  * Update README.
+
 New in 1.2.0:
 
   * Add (-p, --parent) to get the version of the parent project.
